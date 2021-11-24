@@ -9,27 +9,29 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <!-- meshiterro 参照に下記コード写し　-->
+
   <body>
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">　　　　</div>
+        <div class="container">
         　<a class="navbar-brand p-3" href="/"><span>Bookers</span></a>
-        　<button class="navbar-toggler" type="button" data-toggle="callapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          　<span class="navbar-toggler-icon"></span>
-        　</button>
+        　<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
         　<div class="collapse navbar-collapse" id="navbarNavDropdown">
           　<ul class="navbar-nav ml-auto">
             <% if user_signed_in? %>
-            <li><%= link_to "Home",user_path(current_user), class:'nav-link text-light' %></li>
-          　<li><%= link_to "Users", users_path, class:'nav-link text-light' %></li>
-          　<li><%= link_to "Books", books_path, class:'nav-link text-light' %></li>
-          　<li><%= link_to "Log out", destroy_user_session_path, method: :delete, class:'nav-link text-light' %></li>
+              <%= link_to user_path(current_user) do %>
+              <i class="fas fa-home nav-link text-light">Home</i>
+              <% end %>
+              <li><a class="fas fa-users nav-link text-light" href="/users">Users</a></li>
+          　   <li><a class="fas fa-book-open nav-link text-light" href="/books">Books</a></li>
+          　   <li><a class="fas fa-sign-out-alt nav-link text-light" rel="nofollow" data-method="delete" href="/users/sign_out">Log out</a></li>
           　<% else %>
-          　<li><%= link_to "Home", root_path, class:'nav-link text-light' %></li>
-          　<li><%= link_to "About", home_about_path, class:'nav-link text-light'  %></li>
-          　<li><%= link_to "Sign up", new_user_registration_path, class:'nav-link text-light' %></li>
-          　<li><%= link_to "Log in", new_user_session_path, class:'nav-link text-light' %></li>
+          　   <li><a class="fas fa-home nav-link text-light" href="/">Home</a></li>
+          　   <li><a class="fas fa-link nav-link text-light" href="/home/about">About</a></li>
+          　   <li><a class="fas fa-user-plus nav-link text-light" href="/users/sign_up">Sign up</a></li>
+          　   <li><a class="fas fa-sign-in-alt nav-link text-light" href="/users/sign_in">Log in</a></li>
           　<% end %>
             </ul>
           </div>
@@ -37,6 +39,9 @@
       </nav>
     </header>
     <main>
+      <% flash.each do |key,value| %>
+        <%= content_tag(:div,value,class: "#{key}") %>
+      <% end %>
     <%= yield %>
     </main>
     <footer>
@@ -49,4 +54,5 @@
       </div>
     </footer>
   </body>
+
 </html>
